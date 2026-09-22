@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Impacto Inmobiliario | Avanzar RH</title>
+  <style>
+    :root {
+      --azul-inmo: #1a365d;
+      --azul-claro: #2b6cb0;
+      --azul-suave: #ebf8ff;
+      --rojo-vino: #721c24;
+      --fondo: #f7fafc;
+      --tarjeta: #ffffff;
+      --texto: #2d3748;
+      --borde: #bee3f8;
+      --dorado: #d4af37;
+    }
+
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--fondo); color: var(--texto); margin: 0; padding: 0; line-height: 1.5; }
+
+    header {
+      background: linear-gradient(rgba(26, 54, 93, 0.92), rgba(26, 54, 93, 0.96)), 
+                  url('img/imagen_1.jpg') center/cover;
+      color: white; padding: 45px 20px; text-align: center; border-bottom: 4px solid var(--dorado);
+    }
+
+    header h1 { margin: 0 0 10px; font-size: 2.1rem; font-weight: 800; }
+    header p { margin: 0 auto; max-width: 680px; font-size: 0.95rem; color: #e2e8f0; }
+
+    .container { max-width: 900px; margin: -25px auto 40px; padding: 0 20px; }
+
+    .card-box {
+      background: var(--tarjeta); border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; margin-bottom: 30px;
+    }
+
+    .grid-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 25px; }
+    .input-group label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; color: var(--azul-inmo); }
+    .input-group input[type="number"], .input-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 1rem; box-sizing: border-box; }
+
+    .switch-zafra { background: #f7fafc; padding: 18px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
+
+    .atencion-box {
+      background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    }
+    .atencion-badge {
+      font-weight: 800; font-size: 0.85rem; padding: 6px 16px; border-radius: 20px; display: inline-block; transition: 0.3s;
+    }
+
+    .capsula-resultado {
+      background: var(--azul-suave); border: 1px solid var(--borde); border-left: 6px solid var(--azul-inmo); border-radius: 10px; padding: 22px; text-align: center; margin-top: 15px;
+    }
+
+    .res-num-principal { font-size: 2.3rem; font-weight: 900; color: var(--rojo-vino); margin: 4px 0; }
+    
+    .grid-desglose-num { display: flex; justify-content: center; gap: 25px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--borde); flex-wrap: wrap; }
+    .sub-num-item { font-size: 0.85rem; color: #2b6cb0; font-weight: 700; }
+    .sub-num-item span { color: var(--rojo-vino); font-weight: 900; font-size: 1rem; }
+
+    .laudo-badge { background: #ffffff; color: var(--azul-inmo); font-size: 0.75rem; padding: 8px 14px; border-radius: 6px; display: inline-block; margin-top: 15px; font-weight: 600; border: 1px solid var(--borde); box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+
+    .nudos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 18px; }
+    .nudo-card-img { background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 3px 8px rgba(0,0,0,0.04); }
+    .nudo-img { width: 100%; height: 155px; object-fit: cover; display: block; background: #edf2f7; }
+    .nudo-content { padding: 16px; }
+    .nudo-content h4 { margin: 0 0 6px; color: var(--azul-inmo); font-size: 0.95rem; font-weight: 800; }
+    .nudo-content p { margin: 0; font-size: 0.83rem; color: #4a5568; line-height: 1.45; }
+
+    .cta-box { background: var(--azul-inmo); color: white; border-radius: 12px; padding: 35px 25px; text-align: center; margin-top: 35px; }
+    .btn-avanzar { display: inline-block; background: var(--dorado); color: #000; font-weight: 800; text-decoration: none; padding: 15px 32px; border-radius: 30px; font-size: 1rem; margin-top: 20px; transition: 0.2s; }
+    .btn-avanzar:hover { background: #ebd07b; transform: scale(1.02); }
+
+    footer { text-align: center; padding: 30px 20px; font-size: 0.82rem; color: #718096; line-height: 1.6; }
+    footer a { color: var(--azul-claro); text-decoration: none; font-weight: bold; margin: 0 6px; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🏢 Diagnóstico de Impacto y Rotación Inmobiliaria</h1>
+    <p>Cuantificá en tiempo real el costo invisible por fuga de cartera, rotación de agentes y captaciones caídas en tu firma.</p>
+  </header>
+
+  <div class="container">
+
+    <div class="card-box">
+      <h2 style="margin-top:0; color: var(--azul-inmo); font-size: 1.25rem;">🧮 Simulador de Pérdida en Cartera y Ventas</h2>
+      
+      <div class="grid-inputs">
+        <div class="input-group">
+          <label>Dotación de Agentes / Comerciales:</label>
+          <input type="number" id="inpPersonal" value="8" oninput="calcular()">
+        </div>
+        <div class="input-group">
+          <label>Comisión Promedio por Operación ($ USD):</label>
+          <input type="number" id="inpComision" value="3500" step="500" oninput="calcular()">
+        </div>
+        <div class="input-group">
+          <label>Nivel del Puesto Involucrado:</label>
+          <select id="inpRol" onchange="calcular()">
+            <option value="1.0">Agente Jr. / Captador Inicial (x1.0)</option>
+            <option value="1.6" selected>Agente Sr. / Corredor Consolidado (x1.6)</option>
+            <option value="2.5">Team Leader / Broker Asociado (x2.5)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Rotación Anual de Agentes (Bajas):</label>
+          <input type="number" id="inpRotacion" value="3" oninput="calcular()">
+        </div>
+        <div class="input-group">
+          <label>Semanas para Reemplazar e Inducir:</label>
+          <input type="number" id="inpSemanas" value="6" oninput="calcular()">
+        </div>
+      </div>
+
+      <div class="switch-zafra" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <strong style="font-size:0.9rem;">¿La rotación ocurre en temporada de alta demanda / lanzamientos?</strong>
+          <div style="font-size:0.75rem; color:#718096;">(Picos de alquileres de temporada, nuevos desarrollos o lanzamientos pozo)</div>
+        </div>
+        <select id="inpTemporada" onchange="calcular()" style="width: auto; padding: 8px 15px;">
+          <option value="1.8" selected>SÍ (Pico Comercial / Impacto x1.8)</option>
+          <option value="1.0">NO (Actividad Regular)</option>
+        </select>
+      </div>
+
+      <div class="switch-zafra" style="display: flex; flex-direction: column; align-items: flex-start;">
+        <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 8px;">
+          <strong style="font-size:0.9rem;">Estrés Operativo y Fricción Comercial Percibida:</strong>
+          <span id="txtImpactoPct" style="font-weight: 800; color: var(--rojo-vino);">70% - Tensión Alta</span>
+        </div>
+        <input type="range" id="inpEstres" min="0" max="100" value="70" style="width: 100%; cursor: pointer;" oninput="calcular()">
+      </div>
+
+      <div class="atencion-box">
+        <span style="font-size: 0.85rem; font-weight: 700; color: #4a5568;">Nivel de Atención Comercial Requerido:</span>
+        <div class="atencion-badge" id="badgeEstado" style="background: #f8d7da; color: var(--rojo-vino);">
+          🔴 ATENCIÓN URGENTE: RIESGO DE FUGA DE CARTERA Y LEADS
+        </div>
+      </div>
+
+      <div class="capsula-resultado">
+        <div style="font-size: 0.85rem; font-weight: 800; color: var(--azul-inmo); text-transform: uppercase; letter-spacing: 0.5px;">
+          PÉRDIDA ESTIMADA POR ROTACIÓN Y CAPTACIONES CAÍDAS
+        </div>
+        <div class="res-num-principal" id="outTotal">$ 0 USD / Año</div>
+        
+        <div class="grid-desglose-num">
+          <div class="sub-num-item">Impacto Mensual: <span id="outMensual">$ 0 USD</span></div>
+          <div class="sub-num-item">Costo Oportunidad por Mes sin Agente: <span id="outDiario">$ 0 USD</span></div>
+        </div>
+
+        <div class="laudo-badge">
+          📋 Anclaje Estimativo: Basado en Costos Directos de Reclutamiento + Horas Broker de Formación + Proporción de Captaciones Desatendidas.
+        </div>
+      </div>
+    </div>
+
+    <div class="card-box">
+      <h3 style="margin-top:0; color: var(--azul-inmo); border-bottom: 2px solid var(--azul-claro); padding-bottom: 8px;">
+       ⚠️ Realidades del Sector: El Costo Invisible en Bienes Raíces
+      </h3>
+      <p style="font-size:0.85rem; color:#718096; margin-bottom:15px;">
+        La rotación constante de comerciales erosiona el valor del escritorio inmobiliario:
+      </p>
+
+      <div class="nudos-grid">
+        
+        <div class="nudo-card-img">
+          <img src="img/imagen_1.jpg" alt="Fuga de cartera de propiedades" class="nudo-img">
+          <div class="nudo-content">
+            <h4>1. Fuga de Cartera y Exclusivas</h4>
+            <p>Cuando un agente se retira sin procesos de traspaso claros, las propiedades captadas quedan inactivas o migran a firmas competidoras junto con la relación con el propietario.</p>
+          </div>
+        </div>
+
+        <div class="nudo-card-img">
+          <img src="img/imagen_2.jpg" alt="Desgaste del Broker y Team Leader" class="nudo-img">
+          <div class="nudo-content">
+            <h4>2. Desgaste del Broker y Líderes</h4>
+            <p>Los brokers dedican decenas de horas a entrenar asesores que se van a los pocos meses. Ese tiempo perdido frena el cierre de negocios corporativos y la prospección estratégica.</p>
+          </div>
+        </div>
+
+        <div class="nudo-card-img">
+          <img src="img/imagen_3.jpg" alt="Quemado de leads e inducción deficiente" class="nudo-img">
+          <div class="nudo-content">
+            <h4>3. Quemado de Leads e Imagen</h4>
+            <p>Agentes nuevos sin inducción sólida queman contactos calificados por falta de manejo de objeciones, tasaciones imprecisas o mal seguimiento de visitas.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2 style="margin:0 0 10px; font-size:1.45rem;">Consolidá un Equipo Inmobiliario Altamente Productivo</h2>
+      <p style="font-size:0.9rem; margin:0 auto; max-width:600px; color:#e2e8f0;">
+        Ayudamos a inmobiliarias y desarrolladoras a diseñar perfiles de reclutamiento precisos, esquemas de inducción comercial y fidelización de talento para blindar su cartera de clientes.
+      </p>
+      
+      <a href="https://avanzargestionhumana.com/" target="_blank" class="btn-avanzar">
+        👉 Ver Soluciones de Selección y Gestión Humana
+      </a>
+    </div>
+
+  </div>
+
+  <footer>
+    Plataforma de Diagnóstico e Impacto Inmobiliario — Impulsado por <strong>Avanzar RH</strong>.<br>
+    <a href="https://avanzargestionhumana.com/" target="_blank">🌐 Web Oficial</a> | 
+    <a href="https://wa.me/59899343810?text=Hola,%20quisiera%20hacer%20una%20consulta%20directa%20sobre%20el%20Diagn%C3%B3stico%20para%20Inmobiliarias" target="_blank">💬 Consulta directa</a><br>
+    <small>© Avanzar RH Gestión Humana — Montevideo, Uruguay</small>
+  </footer>
+
+  <script>
+    function calcular() {
+      const personal = parseFloat(document.getElementById('inpPersonal').value) || 0;
+      const comision = parseFloat(document.getElementById('inpComision').value) || 0;
+      const rotacion = parseFloat(document.getElementById('inpRotacion').value) || 0;
+      const semanas = parseFloat(document.getElementById('inpSemanas').value) || 0;
+      const multTemp = parseFloat(document.getElementById('inpTemporada').value) || 1;
+      
+      const multRol = parseFloat(document.getElementById('inpRol').value) || 1;
+      const nivelEstres = parseFloat(document.getElementById('inpEstres').value) || 0;
+
+      // Estimación del costo de búsqueda + tiempo broker perdido + captaciones no realizadas
+      const costoDirectoSeleccion = rotacion * 800 * multRol; // Costo operativo aproximado
+      const costoOportunidadCaptacion = (comision * 0.4) * rotacion * (semanas / 4) * multRol * multTemp;
+
+      const subtotalPérdida = costoDirectoSeleccion + costoOportunidadCaptacion;
+      const perdidaMensual = subtotalPérdida / 12;
+      const perdidaOportunidadMes = subtotalPérdida / (rotacion || 1);
+
+      // Formato moneda USD
+      const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+      document.getElementById('outTotal').innerText = fmt.format(subtotalPérdida) + " / Año";
+      document.getElementById('outMensual').innerText = fmt.format(perdidaMensual) + " / mes";
+      document.getElementById('outDiario').innerText = fmt.format(perdidaOportunidadMes) + " / baja";
+
+      const badge = document.getElementById('badgeEstado');
+      const txtPct = document.getElementById('txtImpactoPct');
+
+      if (nivelEstres >= 66) {
+        badge.style.background = "#f8d7da";
+        badge.style.color = "#721c24";
+        badge.innerText = "🔴 ATENCIÓN URGENTE: RIESGO DE FUGA DE CARTERA Y LEADS";
+        txtPct.innerText = `${nivelEstres}% - Tensión Alta`;
+        txtPct.style.color = "#721c24";
+      } else if (nivelEstres >= 33) {
+        badge.style.background = "#fff3cd";
+        badge.style.color = "#856404";
+        badge.innerText = "🟡 ATENCIÓN PREVENTIVA: FRICCIÓN EN LA RETENCIÓN DE AGENTES";
+        txtPct.innerText = `${nivelEstres}% - Fricción Moderada`;
+        txtPct.style.color = "#856404";
+      } else {
+        badge.style.background = "#d4edda";
+        badge.style.color = "#155724";
+        badge.innerText = "🟢 EQUIPO COMERCIAL ESTABLE: MOMENTO DE POTENCIAR LA CAPTACIÓN";
+        txtPct.innerText = `${nivelEstres}% - Estabilidad`;
+        txtPct.style.color = "#155724";
+      }
+    }
+
+    calcular();
+  </script>
+</body>
+</html>
